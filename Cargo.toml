@@ -1,10 +1,10 @@
 [package]
 name = "rahat3062_minigrep"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 description = "A light-weight & minimal implementation of the grep cli app."
 license = "MIT OR Apache-2.0"
-documentation = "https://docs.rs/rahat3062_minigrep/0.1.2/rahat3062_minigrep/"
+documentation = "https://docs.rs/rahat3062_minigrep/0.1.3/rahat3062_minigrep/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

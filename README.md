@@ -21,11 +21,11 @@ Replace <query> with the string you want to search for and <filename> with the p
 
 If needed you can also take input from the stdin via pipelining:
 
-````bash
+```bash
 history | minigrep cargo
 ```
 
-## Library Crate
+# Library Crate
 
 The library crate provides a `run` function that you can use to perform a grep search programmatically. Here's an example:
 
@@ -39,6 +39,6 @@ let config = Config {
 };
 
 let result = run(config);
-````
+```
 
 In this example, run searches for "my query" in "my_file.txt" and returns the matching lines. The search is case-insensitive because sensitive is false.
