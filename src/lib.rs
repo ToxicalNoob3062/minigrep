@@ -1,3 +1,8 @@
+//! # minigrep
+//! this is the minimal representation of the grep command in rust
+//! it has only one run function which takes a Config struct and 
+//! logs the lines containing the query string to stdout
+
 use std::{
     error::Error, 
     fs, 
@@ -6,7 +11,8 @@ use std::{
 use clap::Parser;
 use colored::*;
 
-
+/// The Config struct will store all necessary parameters as properties 
+/// to be used by the run function of this library crate!
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 pub struct Config {
@@ -15,10 +21,14 @@ pub struct Config {
     #[arg(name = "FILENAME", required = false, help = "The file to search in", index = 2)]
     pub filename: Option<String>,
     #[arg(short, long, help = "Case sensitive search" )]
-    sensitive: bool
+    pub sensitive: bool
 }
 
 impl Config {
+    /// Will parse the command line arguments and return as a Config struct
+    /// If the command line arguments are invalid, it will return an error
+    /// It was made specially for the binary crate to use of this package.
+    /// For library use, you can create a custom Config struct directly.
     pub fn new() -> Result<Config, &'static str> {
         let config = Config::parse();
         Ok(config)
@@ -51,7 +61,8 @@ fn color_query(line:&str,query:&str){
     println!();
 }
 
-//runs the program using the Config struct
+/// runs the program using the Config struct which will search a query in a file 
+/// or input passed via stdin
 pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
     let contents = match &config.filename {
         Some(filename) => fs::read_to_string(filename)?,
@@ -75,25 +86,16 @@ pub fn run (config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn search_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-    results
+fn search_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents.lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
-pub fn search_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let query = query.to_lowercase();
-    let mut results = Vec::new();
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line);
-        }
-    }
-    results
+fn search_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents.lines()
+        .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+        .collect()
 }
 
 

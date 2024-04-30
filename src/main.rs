@@ -1,6 +1,6 @@
 use colored::*;
 use std::process;
-use minigrep::{
+use rahat3062_minigrep::{
     Config,
     run
 };
@@ -16,7 +16,7 @@ fn main() {
         None => println!("{}{}", "In file: ".green(), "stdin".blue())
         
     }
-    
+
     //try to read the file
     if let Err(e) = run(config) {
         eprintln!("{}", format!("Application error: {}", e).red());
